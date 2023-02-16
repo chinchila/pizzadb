@@ -12,6 +12,7 @@ migrate:
 	npx sequelize-cli db:seed:all
 
 run:
+	yarn install
 	docker-compose up --force-recreate -V -d
 
 all: clean run migrate 
