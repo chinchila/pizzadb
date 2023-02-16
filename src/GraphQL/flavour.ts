@@ -10,14 +10,30 @@ export const typeDefs = gql`
     id: ID!
     name: String
     price: Float
+    flavour_ingredients: [FlavourIngredient]
   }
 `;
 
 export const resolvers = {
   Query: {
-    flavours: async () => db.flavour.findAll(),
+    flavours: async () =>
+      db.flavour.findAll({
+        include: [
+          {
+            model: db.flavour_ingredient,
+            include: [{ model: db.ingredient }],
+          },
+        ],
+      }),
     flavour: async (_: any, args: any, __: any, ___: any) =>
-      db.flavour.findByPk(args.id),
+      db.flavour.findByPk(args.id, {
+        include: [
+          {
+            model: db.flavour_ingredient,
+            include: [{ model: db.ingredient }],
+          },
+        ],
+      }),
   },
 };
 

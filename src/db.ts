@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import flavour from "./models/flavour";
 import ingredient from "./models/ingredient";
+import flavour_ingredient from "./models/flavour_ingredient";
 import config from "./config";
 
 type ModelList = {
@@ -33,11 +34,9 @@ const sequelize = new Sequelize(
 var db: ModelList = {
   sequelize: sequelize,
   Sequelize: Sequelize,
-  flavour: flavour,
-  ingredient: ingredient,
 };
 
-let models = [flavour, ingredient];
+let models = [flavour, ingredient, flavour_ingredient];
 
 // Initialize models
 models.forEach((model) => {
@@ -45,24 +44,20 @@ models.forEach((model) => {
   db[seqModel.name] = seqModel;
 });
 
-// Apply associations
-Object.keys(db).forEach((key) => {
-  if ("associate" in db[key]) {
-    db[key].associate(db);
-  }
-});
-
 // Add relations
-db.flavour.belongsToMany(db.ingredient, {
-  through: "flavour_ingredient",
-  as: "ingredients",
-  foreignKey: "flavour_id",
-});
+// db.flavour.belongsToMany(db.ingredient, {
+//   through: db.flavour_ingredient,
+//   foreignKey: "flavour_id",
+// });
+db.flavour.hasMany(db.flavour_ingredient);
 
-db.ingredient.belongsToMany(db.flavour, {
-  through: "flavour_ingredient",
-  as: "flavours",
-  foreignKey: "ingredient_id",
-});
+// db.ingredient.belongsToMany(db.flavour, {
+//   through: db.flavour_ingredient,
+//   foreignKey: "ingredient_id",
+// });
+db.ingredient.hasMany(db.flavour_ingredient);
+
+db.flavour_ingredient.belongsTo(db.flavour);
+db.flavour_ingredient.belongsTo(db.ingredient);
 
 export default db;

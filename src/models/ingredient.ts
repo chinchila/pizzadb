@@ -26,6 +26,7 @@ export default function (sequelize: Sequelize) {
     {
       tableName: "ingredient",
       timestamps: false,
+      underscored: true,
     }
   );
 }

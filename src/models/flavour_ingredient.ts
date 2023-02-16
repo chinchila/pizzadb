@@ -2,7 +2,7 @@ import { Sequelize, DataTypes } from "sequelize";
 
 export default function (sequelize: Sequelize) {
   return sequelize.define(
-    "flavour",
+    "flavour_ingredient",
     {
       id: {
         type: DataTypes.INTEGER().UNSIGNED,
@@ -10,17 +10,13 @@ export default function (sequelize: Sequelize) {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
-        type: DataTypes.STRING(64),
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.DECIMAL(10, 2),
+      amount: {
+        type: DataTypes.INTEGER().UNSIGNED,
         allowNull: false,
       },
     },
     {
-      tableName: "flavour",
+      tableName: "flavour_ingredient",
       timestamps: false,
       underscored: true,
     }
