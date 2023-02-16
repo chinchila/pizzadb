@@ -5,6 +5,7 @@ import LoggingMiddleware from "./logging";
 import flavour from "./GraphQL/flavour";
 import ingredient from "./GraphQL/ingredient";
 import flavour_ingredient from "./GraphQL/flavour_ingredient";
+import order from "./GraphQL/order";
 
 import cors from "cors";
 import config from "./config";
@@ -20,7 +21,7 @@ async function startServer() {
   app.use(LoggingMiddleware());
 
   const server = new ApolloServer({
-    modules: [flavour, ingredient, flavour_ingredient],
+    modules: [flavour, ingredient, flavour_ingredient, order],
   });
 
   await server.start();

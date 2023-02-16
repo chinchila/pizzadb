@@ -34,8 +34,8 @@ services:
     depends_on:
       - db
     command: >
-      sh -c "npm install &&
-             npm start"
+      sh -c "yarn install &&
+             yarn start"
 
 networks:
   app-network:

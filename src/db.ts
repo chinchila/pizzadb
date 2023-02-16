@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import flavour from "./models/flavour";
 import ingredient from "./models/ingredient";
 import flavour_ingredient from "./models/flavour_ingredient";
+import order from "./models/order";
 import config from "./config";
 
 type ModelList = {
@@ -36,7 +37,7 @@ var db: ModelList = {
   Sequelize: Sequelize,
 };
 
-let models = [flavour, ingredient, flavour_ingredient];
+let models = [flavour, ingredient, flavour_ingredient, order];
 
 // Initialize models
 models.forEach((model) => {
@@ -45,19 +46,14 @@ models.forEach((model) => {
 });
 
 // Add relations
-// db.flavour.belongsToMany(db.ingredient, {
-//   through: db.flavour_ingredient,
-//   foreignKey: "flavour_id",
-// });
 db.flavour.hasMany(db.flavour_ingredient);
+db.flavour.hasMany(db.order);
 
-// db.ingredient.belongsToMany(db.flavour, {
-//   through: db.flavour_ingredient,
-//   foreignKey: "ingredient_id",
-// });
 db.ingredient.hasMany(db.flavour_ingredient);
 
 db.flavour_ingredient.belongsTo(db.flavour);
 db.flavour_ingredient.belongsTo(db.ingredient);
+
+db.order.belongsTo(db.flavour);
 
 export default db;
