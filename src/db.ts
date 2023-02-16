@@ -52,6 +52,7 @@ Object.keys(db).forEach((key) => {
   }
 });
 
+// Add relations
 db.flavour.belongsToMany(db.ingredient, {
   through: "flavour_ingredient",
   as: "ingredients",
