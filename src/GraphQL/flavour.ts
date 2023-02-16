@@ -10,7 +10,6 @@ export const typeDefs = gql`
     id: ID!
     name: String
     price: Float
-    flavour_ingredients: [FlavourIngredient]
   }
 `;
 

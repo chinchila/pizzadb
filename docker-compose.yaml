@@ -17,6 +17,7 @@ services:
     networks:
       - app-network
     platform: "linux/amd64"
+    command: --sql_mode=""
   # ----------- app container -----------
   app:
     image: node:19-alpine
