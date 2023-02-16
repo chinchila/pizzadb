@@ -1,0 +1,46 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - "${DB_PORT}"
+    volumes:
+      - pizza-db:/var/lib/mysql
+    networks:
+      - app-network
+    platform: "linux/amd64"
+  # ----------- app container -----------
+  app:
+    image: node:19-alpine
+    restart: always
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    expose:
+      - "${APP_PORT}"
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    working_dir: /home/node/app
+    depends_on:
+      - db
+    command: >
+      sh -c "npm install &&
+             npm start"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pizza-db:
+  node_modules:
